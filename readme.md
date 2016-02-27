@@ -1,20 +1,22 @@
 # Usage guide
 
-This guide is for people who want to use NODE_PACKAGE_SKELETON_NAME. 
+This guide is for people who want to use funko-fs. 
 
 Other guides:
 * [Development guide](development.md)
 
 ## Install
 
-`npm install NODE_PACKAGE_SKELETON_NAME`
+`npm install funko-fs`
 
 ## Usage
 
 ```js
-import NODE_PACKAGE_SKELETON_NAME from 'NODE_PACKAGE_SKELETON_NAME'
+import fs from 'funko-fs'
 
-NODE_PACKAGE_SKELETON_USAGE
+fs.stat('package.json')
+// Future Error Stat
+.fork(console.error, console.log)
 ```
 
 ## Thanks

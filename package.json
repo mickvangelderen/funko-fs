@@ -1,30 +1,29 @@
 {
   "author": {
-    "email": "NODE_PACKAGE_SKELETON_AUTHOR_EMAIL",
-    "name": "NODE_PACKAGE_SKELETON_AUTHOR_NAME",
-    "url": "NODE_PACKAGE_SKELETON_AUTHOR_URL"
+    "email": "mickvangelderen@gmail.com",
+    "name": "Mick van Gelderen",
+    "url": "https://github.com/mickvangelderen"
   },
   "dependencies": {},
-  "description": "NODE_PACKAGE_SKELETON_DESCRIPTION",
+  "description": "Functional wrapper of fs module based on funko.",
   "devDependencies": {
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.2",
-    "babel-eslint": "^5.0.0-beta10",
-    "babel-preset-es2015-node5": "^1.1.2",
+    "babel-preset-es2015-node4": "^2.0.3",
     "babel-register": "^6.5.2",
     "eslint": "^2.0.0",
-    "eslint-plugin-babel": "^3.1.0",
     "mocha": "^2.4.5",
     "must": "^0.13.1",
     "semver": "^5.1.0"
   },
   "engines": {
-    "node": "^5.6.0"
+    "node": "^4.0.0",
+    "npm": "^3.0.0"
   },
   "license": "MIT",
   "main": "lib/index.js",
-  "name": "NODE_PACKAGE_SKELETON_NAME",
-  "repository": "NODE_PACKAGE_SKELETON_REPOSITORY",
+  "name": "funko-fs",
+  "repository": "git@github.com:mickvangelderen/funko-fs",
   "scripts": {
     "build": "babel src --out-dir lib --ignore \"*.test.js\"",
     "check-node-version": "babel-node tools/check-node-version",
