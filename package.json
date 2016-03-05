@@ -41,5 +41,5 @@
     "sort-configuration-files": "babel-node tools/sort-configuration-files",
     "test": "npm run check-node-version && npm run lint && babel-node test/index.js"
   },
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
