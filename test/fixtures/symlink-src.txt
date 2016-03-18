@@ -1,1 +1,0 @@
-/home/mick/projects/funko-fs/test/fixtures/symlink-dst.txt

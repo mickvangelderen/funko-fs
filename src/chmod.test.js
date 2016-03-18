@@ -1,11 +1,13 @@
 import cacheFuture from 'funko/lib/future/cache'
 import chmod from './chmod'
 import expect from 'must'
-import path from 'path'
+import testFile from '../test/test-file'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
 
 export default cacheFuture(
-	chmod(0o664, path.join(__dirname, '../test/fixtures/chmod.txt'))
+	testFile(__filename)
+	// Future Error String
+	.chain(chmod(0o664))
 	// Future Error String
 	.chain(wrapCatchable(data => {
 		expect(data).to.be.a.string()

@@ -1,17 +1,18 @@
 import cacheFuture from 'funko/lib/future/cache'
 import expect from 'must'
-import path from 'path'
+import testFile from '../test/test-file'
+import testFileContent from '../test/test-file-content'
+import testFilePath from '../test/test-file-path'
 import truncate from './truncate'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
-import { EOL } from 'os'
-
-const FILE_PATH = path.join(__dirname, '../test/fixtures/truncate.txt')
 
 export default cacheFuture(
-	truncate(16 + EOL.length, FILE_PATH)
-	// Future Error FileDescriptor
+	testFile(__filename)
+	// Future Error Path
+	.chain(truncate(testFileContent.length))
+	// Future Error Path
 	.chain(wrapCatchable(path => {
-		expect(path).to.eql(FILE_PATH)
+		expect(path).to.eql(testFilePath(__filename))
 		return truncate
 	}))
 	// Future Error Module

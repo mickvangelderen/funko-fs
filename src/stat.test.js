@@ -1,11 +1,13 @@
 import cacheFuture from 'funko/lib/future/cache'
 import expect from 'must'
 import stat from './stat'
-import path from 'path'
+import testFile from '../test/test-file'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
 
 export default cacheFuture(
-	stat(path.join(__dirname, '../test/fixtures/stat.txt'))
+	testFile(__filename)
+	// Future Error Path
+	.chain(stat)
 	// Future Error Stat
 	.chain(wrapCatchable(stat => {
 		expect(stat).to.be.an.object()

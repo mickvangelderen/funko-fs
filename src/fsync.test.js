@@ -1,23 +1,29 @@
+import all from 'funko/lib/future/all'
 import cacheFuture from 'funko/lib/future/cache'
+import close from './close.test'
 import expect from 'must'
 import fsync from './fsync'
-import fs from 'fs'
-import Future from 'funko/lib/future'
-import path from 'path'
+import open from './open.test'
+import testFile from '../test/test-file'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
 
 export default cacheFuture(
-	Future((reject, resolve) => {
-		fs.open(path.join(__dirname, '../test/fixtures/fsync.txt'), 'r+', null, (error, fd) =>
-			error ? reject(error) : resolve(fd)
+	all([ open, close, testFile(__filename) ])
+	// Future Error [ Module ]
+	.chain(([ open, close, path ]) => 
+		open(null, 'r+', path)
+		// Future Error FileDescriptor
+		.chain(fd =>
+			fsync(fd)
+			// Future Error FileDescriptor
+			.chain(wrapCatchable(fd => {
+				expect(fd).to.be.an.number()
+				return close(fd)
+			}))
+			// Future Error FileDescriptor
 		)
-	})
-	// Future Error FileDescriptor
-	.chain(fsync)
-	// Future Error FileDescriptor
-	.chain(wrapCatchable(fd => {
-		expect(fd).to.be.an.number()
-		return fsync
-	}))
-	// Future Error Module
+		// Future Error FileDescriptor
+		.map(() => fsync)
+		// Future Error Module
+	)
 )

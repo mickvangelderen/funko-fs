@@ -4,16 +4,16 @@ import close from './close.test'
 import expect from 'must'
 import fchown from './fchown'
 import open from './open.test'
-import path from 'path'
 import resolved from 'funko/lib/future/resolved'
+import testFile from '../test/test-file'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
 
 export default typeof process.getuid === 'function'
 	? cacheFuture(
-		all([ open, close ])
+		all([ open, close, testFile(__filename) ])
 		// Future Error Module
-		.chain(([ open, close ]) => 
-			open(null, 'r+', path.join(__dirname, '../test/fixtures/fchown.txt'))
+		.chain(([ open, close, path ]) => 
+			open(null, 'r+', path)
 			// Future Error FileDescriptor
 			.chain(fchown(process.getuid(), process.getgid()))
 			// Future Error FileDescriptor

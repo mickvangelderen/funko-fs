@@ -1,13 +1,15 @@
 import cacheFuture from 'funko/lib/future/cache'
 import expect from 'must'
-import path from 'path'
 import readlink from './readlink'
 import rejected from 'funko/lib/future/rejected'
 import resolved from 'funko/lib/future/resolved'
+import testFile from '../test/test-file'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
 
 export default cacheFuture(
-	readlink(path.join(__dirname, '../test/fixtures/readlink.txt'))
+	testFile(__filename)
+	// Future Error Path
+	.chain(readlink)
 	// Future Error Stat
 	.chainBoth(
 		error => {
@@ -17,8 +19,8 @@ export default cacheFuture(
 		}, 
 		wrapCatchable(linkString => {
 			expect(linkString).to.be.a.string()
-			return readlink
 		})
 	)
+	.map(() => readlink)
 	// Future Error Module
 )

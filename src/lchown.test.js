@@ -1,13 +1,15 @@
 import cacheFuture from 'funko/lib/future/cache'
 import expect from 'must'
 import lchown from './lchown'
-import path from 'path'
 import resolved from 'funko/lib/future/resolved'
+import testFile from '../test/test-file'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
 
 export default lchown
 	? cacheFuture(
-		lchown(process.getuid(), process.getgid(), path.join(__dirname, '../test/fixtures/lchown.txt'))
+		testFile(__filename)
+		// Future Error Path
+		.chain(lchown(process.getuid(), process.getgid()))
 		// Future Error Path
 		.chain(wrapCatchable(path => {
 			expect(path).to.be.a.string()

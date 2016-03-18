@@ -1,21 +1,17 @@
 import cacheFuture from 'funko/lib/future/cache'
 import expect from 'must'
 import unlink from './unlink'
-import path from 'path'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
-import writeFile from './write-file.test'
-
-const FILE_PATH = path.join(__dirname, '../test/fixtures/unlink.txt')
+import testFile from '../test/test-file'
+import testFilePath from '../test/test-file-path'
 
 export default cacheFuture(
-	writeFile
-	// Future Error Module
-	.chain(writeFile => writeFile('utf-8', FILE_PATH, 'Example content.\n'))
-	// Future Error String
-	.chain(() => unlink(FILE_PATH))
-	// Future Error String
+	testFile(__filename)
+	// Future Error Path
+	.chain(unlink)
+	// Future Error Path
 	.chain(wrapCatchable(path => {
-		expect(path).to.eql(FILE_PATH)
+		expect(path).to.eql(testFilePath(__filename))
 		return unlink
 	}))
 	// Future Error Module	

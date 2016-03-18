@@ -1,11 +1,13 @@
 import cacheFuture from 'funko/lib/future/cache'
 import expect from 'must'
-import path from 'path'
 import realpath from './realpath'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
+import testFile from '../test/test-file'
 
 export default cacheFuture(
-	realpath(null, path.join(__dirname, '../test/fixtures/realpath.txt'))
+	testFile(__filename)
+	// Future Error Path
+	.chain(realpath(null))
 	// Future Error Stat
 	.chain(
 		wrapCatchable(resolvedPath => {

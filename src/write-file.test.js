@@ -1,19 +1,15 @@
 import cacheFuture from 'funko/lib/future/cache'
 import expect from 'must'
-import map from 'funko/lib/map'
-import path from 'path'
-import pipe from 'funko/lib/pipe'
+import testFileContent from '../test/test-file-content'
+import testFilePath from '../test/test-file-path'
 import writeFile from './write-file'
 
-export default pipe([
-	// String
-	writeFile('utf-8', path.join(__dirname, '..', 'test', 'fixtures/write-file.txt')),
+export default cacheFuture(
+	writeFile('utf-8', testFilePath(__filename), testFileContent)
 	// Future Error String
-	map(data => {
-		expect(data).to.eql('Example content.\n')
+	.map(data => {
+		expect(data).to.eql(testFileContent)
 		return writeFile
-	}),
+	})
 	// Future Error Module
-	cacheFuture
-	// Future Error Module
-], 'Example content.\n')
+)

@@ -1,23 +1,19 @@
 import appendFile from './append-file'
 import cacheFuture from 'funko/lib/future/cache'
 import expect from 'must'
-import path from 'path'
+import testFile from '../test/test-file'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
-import writeFile from './write-file.test'
+import { EOL } from 'os'
 
 export default cacheFuture(
-	// Future Error Module
-	writeFile
-	.chain(writeFile =>
-		writeFile('utf-8', path.join(__dirname, '../test/fixtures/append-file.txt'), 'Example')
-	)
+	testFile(__filename)
 	// Future Error String
-	.chain(() =>
-		appendFile('utf-8', path.join(__dirname, '../test/fixtures/append-file.txt'), ' content.\n')
+	.chain(path =>
+		appendFile('utf-8', path, `More content.${EOL}`)
 	)
 	// Future Error String
 	.chain(wrapCatchable(data => {
-		expect(data).to.eql(' content.\n')
+		expect(data).to.eql(`More content.${EOL}`)
 		return appendFile
 	}))
 	// Future Error Module

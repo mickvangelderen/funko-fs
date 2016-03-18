@@ -3,15 +3,19 @@ import close from './close'
 import expect from 'must'
 import fs from 'fs'
 import Future from 'funko/lib/future'
-import path from 'path'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
+import testFile from '../test/test-file'
 
 export default cacheFuture(
-	Future((reject, resolve) => {
-		fs.open(path.join(__dirname, '../test/fixtures/close.txt'), 'r', null, (error, fd) =>
-			error ? reject(error) : resolve(fd)
-		)
-	})
+	testFile(__filename)
+	// Future Error String
+	.chain(path =>
+		Future((reject, resolve) => {
+			fs.open(path, 'r', null, (error, fd) =>
+				error ? reject(error) : resolve(fd)
+			)
+		})
+	)
 	// Future Error FileDescriptor
 	.chain(close)
 	// Future Error null

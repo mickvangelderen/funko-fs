@@ -1,16 +1,17 @@
 import cacheFuture from 'funko/lib/future/cache'
 import expect from 'must'
 import utimes from './utimes'
-import path from 'path'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
-
-const FILE_PATH = path.join(__dirname, '../test/fixtures/utimes.txt')
+import testFile from '../test/test-file'
+import testFilePath from '../test/test-file-path'
 
 export default cacheFuture(
-	utimes(new Date(), new Date(), FILE_PATH)
+	testFile(__filename)
+	// Future Error Path
+	.chain(utimes(new Date(), new Date()))
 	// Future Error FileDescriptor
 	.chain(wrapCatchable(path => {
-		expect(path).to.eql(FILE_PATH)
+		expect(path).to.eql(testFilePath(__filename))
 		return utimes
 	}))
 	// Future Error Module

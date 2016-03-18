@@ -3,11 +3,13 @@ import expect from 'must'
 import fs from 'fs'
 import Future from 'funko/lib/future'
 import open from './open'
-import path from 'path'
+import testFile from '../test/test-file'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
 
 export default cacheFuture(
-	open(null, 'r', path.join(__dirname, '../test/fixtures/open.txt'))
+	testFile(__filename)
+	// Future Error Path
+	.chain(open(null, 'r'))
 	// Future Error FileDescriptor
 	.chain(wrapCatchable(fd => {
 		expect(fd).to.be.a.number()
