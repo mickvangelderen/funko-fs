@@ -12,6 +12,7 @@ export default cacheFuture(
 	.chainBoth(
 		error => {
 			if (error.code === 'EINVAL') return resolved()
+			if (error.code === 'UNKNOWN') return resolved() // Windows
 			return rejected(error)
 		}, 
 		wrapCatchable(linkString => {

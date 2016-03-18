@@ -14,6 +14,8 @@ import lchown from './lchown'
 import link from './link'
 import lstat from './lstat'
 import mkdir from './mkdir'
+import mkdirf from './mkdirf'
+import mkdirp from './mkdirp'
 import open from './open'
 import read from './read'
 import readdir from './readdir'
@@ -48,6 +50,8 @@ export {
 	link,
 	lstat,
 	mkdir,
+	mkdirf,
+	mkdirp,
 	open,
 	read,
 	readdir,

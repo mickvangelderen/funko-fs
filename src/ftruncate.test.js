@@ -1,10 +1,11 @@
 import cacheFuture from 'funko/lib/future/cache'
 import expect from 'must'
-import ftruncate from './ftruncate'
 import fs from 'fs'
+import ftruncate from './ftruncate'
 import Future from 'funko/lib/future'
 import path from 'path'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
+import { EOL } from 'os'
 
 export default cacheFuture(
 	Future((reject, resolve) => {
@@ -13,7 +14,7 @@ export default cacheFuture(
 		)
 	})
 	// Future Error FileDescriptor
-	.chain(ftruncate(17))
+	.chain(ftruncate(16 + EOL.length))
 	// Future Error FileDescriptor
 	.chain(wrapCatchable(fd => {
 		expect(fd).to.be.an.number()

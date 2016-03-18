@@ -4,13 +4,14 @@ import map from 'funko/lib/map'
 import path from 'path'
 import pipe from 'funko/lib/pipe'
 import readFile from './read-file'
+import { EOL } from 'os'
 
 export default pipe([
 	// String
 	readFile('utf-8'),
 	// Future Error String
 	map(buffer => {
-		expect(buffer.toString()).to.eql('Example content.\n')
+		expect(buffer.toString()).to.eql(`Example content.${EOL}`)
 		return readFile
 	}),
 	// Future Error Module

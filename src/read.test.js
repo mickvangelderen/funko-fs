@@ -6,6 +6,7 @@ import open from './open.test'
 import path from 'path'
 import read from './read'
 import wrapCatchable from 'funko/lib/future/wrap-catchable'
+import { EOL } from 'os'
 
 function test([ open, close ]) {
 	return open(null, 'r+', path.join(__dirname, '../test/fixtures/read.txt'))
@@ -15,8 +16,10 @@ function test([ open, close ]) {
 		return read(0, 20, 0, buffer, fd)
 		// Future Error Number
 		.chain(wrapCatchable(bytesRead => {
-			expect(bytesRead).to.eql(17)
-			expect(buffer.equals(new Buffer('Example content.\n\0\0\0'))).to.be.true()
+			expect(bytesRead).to.eql(16 + EOL.length)
+			const expected = new Buffer(20).fill('\0')
+			expected.write(`Example content.${EOL}`)
+			expect(buffer.equals(expected)).to.be.true()
 			return close(fd)
 		}))
 		// Future Error null

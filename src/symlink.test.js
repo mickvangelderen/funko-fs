@@ -15,13 +15,19 @@ export default cacheFuture(
 	// Future Error Module
 	.chain(unlink =>
 		unlink(SRC_PATH)
-		.chainLeft(error => {
-			if (error.code === 'ENOENT') return resolved(SRC_PATH)
-			return rejected(DST_PATH)
-		})
+		.chainLeft(error => error && error.code === 'ENOENT'
+			? resolved(SRC_PATH)
+			: rejected(DST_PATH)
+		)
 	)
 	// Future Error Path
-	.chain(symlink(null, DST_PATH))
+	.chain(path =>
+		symlink(null, DST_PATH, path)
+		.chainLeft(error => error && error.code === 'EPERM'
+			? resolved(SRC_PATH) // Windows
+			: rejected(error)
+		)
+	)
 	// Future Error Path
 	.chain(wrapCatchable(path => {
 		expect(path).to.eql(SRC_PATH)
