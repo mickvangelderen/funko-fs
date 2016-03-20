@@ -5,7 +5,7 @@
     "url": "https://github.com/mickvangelderen"
   },
   "dependencies": {
-    "funko": "^0.4.0"
+    "funko": "^0.5.0"
   },
   "description": "Functional wrapper of fs module based on funko.",
   "devDependencies": {
